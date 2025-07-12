@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "6cea4e47-9056-4989-a542-f0d91c11d14a",
+		"name": "GoRest-APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15879064"
+	},
+	"item": [
+		{
+			"name": "Id verification",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Verify status code",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"//Verify id is numerical or not",
+							"pm.test(\"ID is a number\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(typeof jsonData.id).to.eql(\"number\");",
+							"});",
+							"",
+							"//Verify status",
+							"pm.test(\"Status is active or inactive\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect([\"active\", \"inactive\"]).to.include(jsonData.status);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Generate random characters for email name",
+							"const randomString = Math.random().toString(36).substring(2, 10);",
+							"",
+							"const email = `user_${randomString}@example.com`;",
+							"//set variable",
+							"pm.globals.set(\"Email\", email); ",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "363d9287bf6046d8946be57e31e7392fd68cb66d92a1e391463de1f925a6348f",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"status\":\"active\",\n    \"name\":\"Trilokssesh Talwar\",\n    \"email\": \"{{Email}}\",\n    \"gender\":\"male\"\n \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Already used email",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Trilokssesh Talwar\",\n    \"email\":\"trilokesh_talwar@williamson.example\",\n    \"gender\":\"male\",\n    \"status\":\"active\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
