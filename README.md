@@ -1,6 +1,7 @@
 **Authentication**
 
-To authenticate API requests, get the token by visiting below link
+To authenticate API requests, get the token by visiting below link:
+
 [https://gorest.co.in/my-account/access-tokens](https://gorest.co.in/my-account/access-tokens)
 
 **Collection Details**
